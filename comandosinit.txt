@@ -1,0 +1,8 @@
+##INICIALIZANDO PROJETO DE NODEJS
+npm init
+
+##INSTALAR DEPENDENCIA DO EXPRESS
+npm i express
+
+##CONFIGURANDO O PROJETO PARA SER ESCRITO E RODAR COM TYPESCRIPT EM -DEV-
+npm install --save-dev typescript @types/express ts-node-dev
