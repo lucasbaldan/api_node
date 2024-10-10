@@ -1,3 +1,3 @@
 import { server } from "./server/Server";
 
-server.listen(3333, () => console.log('App Rodando'));
+server.listen(8080, () => console.log('App Rodando'));

@@ -5,4 +5,10 @@ npm init
 npm i express
 
 ##CONFIGURANDO O PROJETO PARA SER ESCRITO E RODAR COM TYPESCRIPT EM -DEV-
-npm install --save-dev typescript @types/express ts-node-dev
+npm install --save-dev typescript @types/express tsx @types/node
+
+##GERAR AS CONFIGURAÇÕES DO TYPESCRIPT, PEGAR CONFIGURAÇÕES DA MS
+npx tsc --init
+_
+https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
+
