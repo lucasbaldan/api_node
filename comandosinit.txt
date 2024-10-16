@@ -12,3 +12,5 @@ npx tsc --init
 _
 https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
 
+##COMANDO PARA GERAR BUILD DO SISTEMA
+npx tsc
