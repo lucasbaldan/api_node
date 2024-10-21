@@ -9,6 +9,10 @@ router.get('/', (_, res) => {
     res.status(StatusCodes.UNAUTHORIZED).json('Hello World');
 });
 
-router.get('/cidades', CidadesController.create);
+/**
+ * ROTA DE CADASTRO DE CIDADE
+ * @param ICidades
+ */
+router.post('/cidades', CidadesController.validator, CidadesController.create);
 
 export { router };

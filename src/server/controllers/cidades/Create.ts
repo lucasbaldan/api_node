@@ -1,39 +1,24 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as yup from 'yup';
+import './../../shared/services/YupPT-BR';
+import { YupMiddleware } from "../../shared/middlewares";
 
 interface ICidades {
     nome: string,
-    uf: number,
-    codigoIBGE: number
+    uf: string,
+    codigo_ibge?: number | undefined | null
 }
 
-const validaCampos: yup.ObjectSchema<ICidades> = yup.object().shape({
-    nome: yup.string().required().min(4),
-    uf: yup.number().required(),
-    codigoIBGE: yup.number().required("Atributo de entrada --codigoIbge-- não informado")
-})
+const validaBody: yup.ObjectSchema<ICidades> = yup.object().shape({
+    nome: yup.string().required("Atributo --nome-- não informado").min(4, "Atributo --nome-- deve possuir pelo menos 4 caracteres"),
+    uf: yup.string().required("Atributo --uf-- não informado"),
+    codigo_ibge: yup.number().notRequired()
+});
+
+export const validator = YupMiddleware("body", validaBody);
 
 export const create = async (req: Request<{}, {}, ICidades>, res: Response) => {
-    let cidadeValidada: ICidades | undefined = undefined;
 
-    try {
-        cidadeValidada = await validaCampos.validate(req.body, { abortEarly: false });
-        console.log('Cidade validada com sucesso');
-    } catch (error) {
-        const yupError = error as yup.ValidationError;
-        const errosCampos: Record<string, string> = {};
-
-        yupError.inner.forEach(error => {
-            if (!error.path) return;
-
-            errosCampos[error.path] = error.message;
-        });
-
-        res.status(StatusCodes.BAD_REQUEST).json({
-            status: false,
-            errors: errosCampos
-        })
-
-    }
+    res.json(req.body);
 }
