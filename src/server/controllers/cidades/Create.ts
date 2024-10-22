@@ -10,13 +10,14 @@ interface ICidades {
     codigo_ibge?: number | undefined | null
 }
 
-const validaBody: yup.ObjectSchema<ICidades> = yup.object().shape({
-    nome: yup.string().required("Atributo --nome-- não informado").min(4, "Atributo --nome-- deve possuir pelo menos 4 caracteres"),
-    uf: yup.string().required("Atributo --uf-- não informado"),
-    codigo_ibge: yup.number().notRequired()
+export const validator = YupMiddleware({
+    body: yup.object().shape({
+        nome: yup.string().required("Atributo --nome-- não informado").min(4, "Atributo --nome-- deve possuir pelo menos 4 caracteres"),
+        uf: yup.string().required("Atributo --uf-- não informado"),
+        codigo_ibge: yup.number().notRequired(),
+        alguma_coisa: yup.string().required()
+    })
 });
-
-export const validator = YupMiddleware("body", validaBody);
 
 export const create = async (req: Request<{}, {}, ICidades>, res: Response) => {
 
