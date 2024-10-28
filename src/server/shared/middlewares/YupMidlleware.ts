@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ObjectSchema, ValidationError } from "yup";
+import '../../shared/services/YupPT-BR';
 
 
 type TFields = 'body' | 'header' | 'params' | 'query';

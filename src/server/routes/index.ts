@@ -13,6 +13,8 @@ router.get('/', (_, res) => {
  * ROTA DE CADASTRO DE CIDADE
  * @param ICidades
  */
-router.post('/cidades', CidadesController.validator, CidadesController.create);
+router.post('/cidades', CidadesController.insertValidator, CidadesController.insertOrUpdate);
+
+router.get('/cidades', CidadesController.getAllvalidator, CidadesController.getAll);
 
 export { router };

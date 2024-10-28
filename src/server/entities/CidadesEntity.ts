@@ -1,4 +1,5 @@
 export interface ICidade {
+    codigo: number
     nome: string,
     uf: string,
     codigo_ibge?: number | undefined
@@ -7,5 +8,13 @@ export interface ICidade {
 export interface GetAllProps {
     page?: number,
     limit?: number,
-    filtro?: ICidade
+    cidade?: ICidade
+}
+
+export interface GetByIdProps {
+    cidade: ICidade
+}
+
+export interface DeleteByIdProps {
+    cidade: ICidade
 }
