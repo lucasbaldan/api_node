@@ -14,3 +14,10 @@ https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
 
 ##COMANDO PARA GERAR BUILD DO SISTEMA
 npx tsc
+
+## INSTALANDO BIBLIOTECAS DE TESTES
+npm i jest ts-jest @types/jest -D
+npm i supertest @types/supertest -D
+
+## EXECUTANDO CONFIGURAÇÃO INICIAL DO JEST NO PROJETO
+npm init jest@latest

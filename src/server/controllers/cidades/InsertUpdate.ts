@@ -15,5 +15,5 @@ export const insertValidator = YupMiddleware({
 
 export const insertOrUpdate = async (req: Request<{}, {}, ICidade>, res: Response) => {
 
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json([req.body, {main_error :"método não implementando"}]);
+    res.status(StatusCodes.OK).json([req.body, {main_error :"método não implementando"}]);
 } 
