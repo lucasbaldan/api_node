@@ -15,6 +15,11 @@ router.get('/', (_, res) => {
  */
 router.post('/cidades', CidadesController.insertValidator, CidadesController.insertOrUpdate);
 
+/**
+ * ROTA DE CONSULTA DE CIDADE -- TODAS AS CIDADES
+ * @param ICidades
+ */
 router.get('/cidades', CidadesController.getAllvalidator, CidadesController.getAll);
 
-export { router };
+
+export { router }; 
