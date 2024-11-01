@@ -28,7 +28,7 @@ describe('Cidades - Insert or Update', () => {
             .send({ nome: 'Caxias do Sul', uf: "ES" });
 
             expect(result.statusCode).toEqual(StatusCodes.OK);
-            expect(result.body).toHaveProperty("main_error");
+            expect(result.body[1]).toHaveProperty("main_error");
     });
 
     it('Tenta atualizar', async () => {
@@ -37,7 +37,7 @@ describe('Cidades - Insert or Update', () => {
             .send({ nome: 'Caxias do Sul', uf: "ES" });
 
             expect(result.statusCode).toEqual(StatusCodes.OK);
-            expect(result.body).toHaveProperty("main_error");
+            expect(result.body[1]).toHaveProperty("main_error");
     });
     
 });
