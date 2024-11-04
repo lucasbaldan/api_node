@@ -2,7 +2,7 @@ export interface ICidade {
     codigo: number
     nome: string,
     uf: string,
-    codigo_ibge?: number | undefined
+    codigo_ibge?: number
 }
 
 export interface GetAllProps {

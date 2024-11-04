@@ -1,5 +1,4 @@
 import { knex } from 'knex';
-//import config from './Config';
 
 import { development, production, test } from './Config';
 
