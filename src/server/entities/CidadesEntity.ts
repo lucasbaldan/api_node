@@ -1,8 +1,8 @@
 export interface ICidade {
     codigo: number
     nome: string,
-    uf: string,
-    codigo_ibge?: number
+    id_estado: string,
+    ativo: boolean
 }
 
 export interface GetAllProps {
