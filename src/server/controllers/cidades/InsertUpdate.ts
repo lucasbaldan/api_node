@@ -22,7 +22,7 @@ export const insertOrUpdate = async (req: Request<{}, {}, ICidade>, res: Respons
     if (result instanceof Error) {
         response = {status: false, errors: "Erro ao inserir registro na base de dados", data: ''};
     } else {
-        response = {data: result, errors: '', status: true};
+        response = {status: true, errors: '', data: result};
         statusResponse = StatusCodes.OK;
     }
 

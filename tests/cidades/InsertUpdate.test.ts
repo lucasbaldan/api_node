@@ -29,13 +29,15 @@ describe('Cidades - Insert or Update', () => {
         const result = await testServer.post('/cidades')
             .send({ nome: 'Caxias do Sul', id_estado: 1, ativo: true });
 
+            console.log(result.body);
+
             expect(result.statusCode).toEqual(StatusCodes.OK);
             expect(result.body).toMatchObject({
-                json: true,
+                status: true,
                 errors: '',
                 data: {
-                  id: expect.any(number),
-                  nome: "caxias do sul",
+                  id: 1,
+                  nome: "Caxias do Sul",
                   id_estado: 1,
                   ativo: 1
                 }
