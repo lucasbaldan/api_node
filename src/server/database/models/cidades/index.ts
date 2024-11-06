@@ -1,11 +1,13 @@
 import * as insert from './Insert';
-//import * as getAll from './GetAll';
+import * as getAll from './GetAll';
 //import * as getById from './GetById';
-//import * as deleteById from './DeleteById';
+import * as update from './Update';
+import * as deleteById from './Delete';
+
 
 export const CidadesModels = {
     ...insert,
-  //  ...getAll,
-  //  ...getById,
-   // ...deleteById,
+    ...getAll,
+    ...deleteById,
+    ...update
 }
