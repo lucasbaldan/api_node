@@ -1,5 +1,5 @@
 export interface ICidade {
-    codigo: number
+    id: number
     nome: string,
     id_estado: string,
     ativo: boolean

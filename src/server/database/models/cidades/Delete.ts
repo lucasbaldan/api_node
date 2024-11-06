@@ -1,6 +1,6 @@
 import { Conn } from "../../knex";
 
-export const deleteById = async (id_cidade: number): Promise<void | Error> => {
+export const DeleteById = async (id_cidade: number): Promise<void | Error> => {
     try {
         const result = await Conn('cidades')
         .where('codigo', '=', id_cidade)

@@ -1,11 +1,11 @@
 import { ICidade } from "../../../entities";
 import { Conn } from "../../knex";
 
-export const update = async (cidade: ICidade): Promise<void | Error> => {
+export const Update = async (cidade: ICidade): Promise<void | Error> => {
     try {
         const result = await Conn('cidades')
         .update(cidade)
-        .where('codigo', '=', cidade.codigo);
+        .where('id', '=', cidade.id);
 
         if (result === 1) {
             return;
