@@ -3,7 +3,7 @@ import { Conn } from "../../knex";
 export const DeleteById = async (id_cidade: number): Promise<void | Error> => {
     try {
         const result = await Conn('cidades')
-        .where('codigo', '=', id_cidade)
+        .where('id', '=', id_cidade)
         .delete();
 
         if (result === 1) {

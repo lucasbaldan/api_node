@@ -1,7 +1,7 @@
 import { ICidade } from "../../../entities/CidadesEntity";
 import { Conn } from "../../knex";
 
-export const Insert = async (cidade: Omit<ICidade, 'codigo'>): Promise<ICidade | Error> => {
+export const Insert = async (cidade: Omit<ICidade, 'id'>): Promise<ICidade | Error> => {
     try {
         const [cidadeCriada] = await Conn('cidades').insert(cidade).returning("*");
         if (typeof cidadeCriada === 'object') {
