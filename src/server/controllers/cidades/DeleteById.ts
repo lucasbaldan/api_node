@@ -18,7 +18,7 @@ export const deleteById = async (req: Request<{}, {}, ICidade>, res: Response) =
         result = await CidadesModels.DeleteById(req.body.id);
 
     if (result instanceof Error) {
-        response.errors = { default: "Erro ao excluir registro na base de dados" };
+        response.errors = { default: result.message };
     } else {
         response.status = true;
         response.statusCode = StatusCodes.OK;

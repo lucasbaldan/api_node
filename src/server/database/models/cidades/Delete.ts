@@ -9,7 +9,7 @@ export const DeleteById = async (id_cidade: number): Promise<void | Error> => {
         if (result === 1) {
             return;
         } else {
-            return new Error('Erro ao processar inserção na base de dados');
+            return new Error("Erro ao processar delete na base de dados");
         }
     } catch (error) {
         console.log(error);
