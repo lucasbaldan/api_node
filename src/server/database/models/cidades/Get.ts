@@ -1,7 +1,7 @@
 import { ICidade } from "../../../entities";
 import { Conn } from "../../knex";
 
-export const GetAll = async (parametro: ICidade): Promise<ICidade[] | Error> => {
+export const getCidade = async (parametro: ICidade): Promise<ICidade[] | Error> => {
     try {
         const result = await Conn('cidades')
             .select('*')
