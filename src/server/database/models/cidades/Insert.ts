@@ -7,10 +7,10 @@ export const Insert = async (cidade: Omit<ICidade, 'codigo'>): Promise<ICidade |
         if (typeof cidadeCriada === 'object') {
             return cidadeCriada;
         } else {
-            return new Error('Erro ao processar inserção na base de dados');
+            return new Error('Erro ao processar insert na base de dados');
         }
     } catch (error) {
         console.log(error);
-        return Error('Erro ao processar inserção na base de dados');
+        return new Error(error instanceof Error ? error.message : "Erro ao processar insert na base de dados");
     }
 }

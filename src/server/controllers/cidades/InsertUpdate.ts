@@ -25,7 +25,7 @@ export const insertOrUpdate = async (req: Request<{}, {}, ICidade>, res: Respons
     }
 
     if (result instanceof Error) {
-        response.errors = { default: "Erro ao inserir ou atualizar registro na base de dados" };
+        response.errors = { default: result.message };
     } else {
         if(typeof result === 'object') response.data = result;
         response.status = true;
