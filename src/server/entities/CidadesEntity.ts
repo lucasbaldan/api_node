@@ -5,16 +5,8 @@ export interface ICidade {
     ativo: boolean
 }
 
-export interface GetAllProps {
+export interface GetAllCidadesProps {
     page?: number,
     limit?: number,
-    cidade?: ICidade
-}
-
-export interface GetByIdProps {
-    cidade: ICidade
-}
-
-export interface DeleteByIdProps {
     cidade: ICidade
 }

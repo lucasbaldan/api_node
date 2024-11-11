@@ -10,10 +10,10 @@ const startServer = () => {
 }
 
 startServer();
-// Conn.migrate.latest()
-//     .then(() => {
-//         startServer();
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     })
+Conn.migrate.latest()
+    .then(() => {
+        startServer();
+    })
+    .catch(error => {
+        console.log(error);
+    })
