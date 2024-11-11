@@ -21,5 +21,11 @@ router.post('/cidades', CidadesController.insertValidator, CidadesController.ins
  */
 router.get('/cidades', CidadesController.getAllvalidator, CidadesController.getAll);
 
+/**
+ * ROTA DE DELETE DE CIDADE
+ * @param ICidades
+ */
+router.delete('/cidades', CidadesController.deleteValidator, CidadesController.deleteById);
+
 
 export { router }; 

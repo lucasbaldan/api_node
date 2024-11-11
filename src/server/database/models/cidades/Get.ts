@@ -5,7 +5,7 @@ export const getCidade = async (parametro: ICidade): Promise<ICidade[] | Error> 
     try {
         const result = await Conn('cidades')
             .select('*')
-            .where('codigo', '=', parametro.codigo)
+            .where('id', '=', parametro.id)
             .orWhereLike('nome', parametro.nome)
             .orWhere('id_estado', '=', parametro.id_estado)
             .orWhere('ativo', '=', parametro.ativo)
