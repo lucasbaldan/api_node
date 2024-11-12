@@ -9,10 +9,15 @@ const startServer = () => {
     });
 }
 
-startServer();
 Conn.migrate.latest()
     .then(() => {
-        startServer();
+        Conn.seed.run()
+            .then(() => {
+                startServer();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     })
     .catch(error => {
         console.log(error);

@@ -1,7 +1,7 @@
 export interface ICidade {
     id: number
     nome: string,
-    id_estado: string,
+    id_estado: number,
     ativo: boolean
 }
 
