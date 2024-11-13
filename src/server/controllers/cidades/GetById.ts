@@ -1,16 +1,36 @@
+import * as yup from 'yup';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import * as yup from 'yup';
+import { CidadesModels } from '../../database/models';
 import { YupMiddleware } from "../../shared/middlewares";
-import { GetByIdProps } from "../../entities/CidadesEntity";
+import { defaultResponse, ICidade } from "../../entities";
 
 export const getByIdValidator = YupMiddleware({
     body: yup.object().shape({
-        codigo: yup.number().optional().moreThan(0),
+        cidade: yup.object({
+            id: yup.number().required('O temro --id-- deve ser informado').moreThan(0),  
+        }),
     })
 });
 
-export const getById = async (req: Request<{}, {}, GetByIdProps>, res: Response) => {
+export const getById = async (req: Request<{}, {}, ICidade>, res: Response) => {
 
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json([req.body, {main_error :"método não implementando"}]);
-} 
+        const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
+        let result: ICidade | Error | ICidade[];
+
+        result = await CidadesModels.getCidade(undefined, req.body.id);
+
+        if (result instanceof Error) {
+            response.errors = { default: result.message };
+        } else {
+            response.data = result;
+            response.status = true;
+            response.statusCode = StatusCodes.OK;
+        }
+    
+        //NÃO LEVAR O STATUSCODE PARA A RESPOSTA DO SERVIDOR
+        const {statusCode, ...finalResponse} = response;
+        //--------------------------------------------------
+    
+        res.status(response.statusCode).json(finalResponse);
+    }

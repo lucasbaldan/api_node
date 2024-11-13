@@ -1,4 +1,4 @@
-import { ICidade } from "../../../entities/CidadesEntity";
+import { ICidade } from "../../../entities";
 
 declare module 'knex/types/tables' {
     interface Tables {

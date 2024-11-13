@@ -1,2 +1,2 @@
-export * from './CidadesEntity';
+export * from './CidadeEntity';
 export * from './HTTPResponse';

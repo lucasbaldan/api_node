@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as yup from 'yup';
 import { YupMiddleware } from "../../shared/middlewares";
-import { GetAllProps } from "../../entities/CidadesEntity";
+import { GetAllCidadesProps } from "../../entities/CidadeEntity";
 
 export const getAllvalidator = YupMiddleware({
     body: yup.object().shape({
@@ -17,7 +17,7 @@ export const getAllvalidator = YupMiddleware({
     })
 });
 
-export const getAll = async (req: Request<{}, {}, GetAllProps>, res: Response) => {
+export const getAll = async (req: Request<{}, {}, GetAllCidadesProps>, res: Response) => {
 
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json([req.body, {main_error :"método não implementando"}]);
 }

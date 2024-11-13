@@ -1,4 +1,4 @@
-import { ICidade } from "../../../entities/CidadesEntity";
+import { ICidade } from "../../../entities/CidadeEntity";
 import { Conn } from "../../knex";
 
 export const Insert = async (cidade: Omit<ICidade, 'id'>): Promise<ICidade | Error> => {
