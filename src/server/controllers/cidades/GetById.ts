@@ -7,23 +7,30 @@ import { defaultResponse, ICidade } from "../../entities";
 
 export const getByIdValidator = YupMiddleware({
     body: yup.object().shape({
-        cidade: yup.object({
             id: yup.number().required('O temro --id-- deve ser informado').moreThan(0),  
-        }),
     })
 });
 
 export const getById = async (req: Request<{}, {}, ICidade>, res: Response) => {
 
         const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-        let result: ICidade | Error | ICidade[];
+        let result: Error | ICidade[];
 
         result = await CidadesModels.getCidade(undefined, req.body.id);
 
         if (result instanceof Error) {
             response.errors = { default: result.message };
-        } else {
-            response.data = result;
+        } 
+        else if (result.length === 0){
+            response.errors = { default: "Nenhum registro encontrado para o ID informado" };
+            response.statusCode = StatusCodes.NOT_FOUND;
+        } 
+        else if (result.length !== 1){
+            response.errors = { default: "Erro ao processar requisição solicitada" };
+            response.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+        }
+        else {
+            response.data = result[0];
             response.status = true;
             response.statusCode = StatusCodes.OK;
         }

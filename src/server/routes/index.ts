@@ -17,9 +17,15 @@ router.post('/cidades', CidadesController.insertValidator, CidadesController.ins
 
 /**
  * ROTA DE CONSULTA DE CIDADE -- TODAS AS CIDADES
- * @param ICidades
+ * @param getAllCidadesProps
  */
 router.get('/cidades', CidadesController.getAllvalidator, CidadesController.getAll);
+
+/**
+ * ROTA DE CONSULTA DE CIDADE -- POR ID
+ * @param getAllCidadesProps
+ */
+router.get('/cidade', CidadesController.getByIdValidator, CidadesController.getById);
 
 /**
  * ROTA DE DELETE DE CIDADE
