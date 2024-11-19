@@ -2,33 +2,33 @@ import { GetAllCidadesProps, ICidade } from "../../../entities";
 import { Conn } from "../../knex";
 
 export const getCidade = async (parametro?: GetAllCidadesProps, id?: number): Promise<ICidade[] | Error> => {
-    let result: ICidade[] | ICidade | undefined;
+    let query = Conn('cidades').select('*');
 
     try {
 
         if (id !== undefined) {
-            result = await Conn('cidades')
-                .select('*')
-                .where('id', id)
+            const result = await query.where('id', id)
                 .first();
 
-            if(result === undefined) return [];
-                else return [result];
+            return result ? [result] : [];
 
         } else if (parametro !== undefined) {
-            result = await Conn('cidades')
-                .select('*')
-                .whereLike('id', `%${parametro.cidade.id}%`)
-                .orWhereLike('nome', `%${parametro.cidade.nome}%`)
-                .orWhere('id_estado', '=', parametro.cidade.id_estado)
-                .orWhere('ativo', '=', parametro?.cidade.ativo)
-                .offset(((parametro.page || 1) - 1) * (parametro.limit || 100))
-                .limit(parametro.limit || 100);
+            if (parametro.cidade !== undefined) {
+                     
+                if (parametro.cidade.id !== undefined) query = query.whereLike('id', `%${parametro.cidade.id}%`);
+                if (parametro.cidade.nome) query = query.orWhereLike('nome', `%${parametro.cidade.nome}%`);
+                if (parametro.cidade.id_estado) query = query.orWhere('id_estado', '=', parametro.cidade.id_estado);
+                if (parametro.cidade.ativo) query = query.orWhere('ativo', '=', parametro?.cidade.ativo);
+            }
+            query.offset(((parametro.page || 1) - 1) * (parametro.limit || 100));
+            query.limit(parametro.limit || 100);
+
+            const result = await query;
 
             return result ?? [];
         }
 
-            return Error("Erro ao processar consulta na base de dados");
+        return Error("Erro ao processar consulta na base de dados");
 
     } catch (error) {
         console.log(error);
