@@ -3,7 +3,10 @@ import { ICidade } from "../../entities";
 
 export const seed = async (Conn: Knex) => {
     const [{ count }] = await Conn('cidades').count<[{count: number}]>('* as count');
-    if(!Number.isInteger(count) || Number(count)) return;
+    if(!Number.isInteger(count) || Number(count)) {
+      console.log('-- seed cidades não executado -> a tabela possui registros -- ');
+      return;
+    }
 
 
     const cidadesES = [
@@ -89,7 +92,7 @@ export const seed = async (Conn: Knex) => {
 
       const dadosCidades: ICidade[] = cidadesES.map((cidade) => ({
         ativo: true,
-        id_estado: 15,
+        id_estado: 1,
         nome: cidade,
       })) as ICidade[];
 

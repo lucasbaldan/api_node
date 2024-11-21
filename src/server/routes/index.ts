@@ -17,7 +17,7 @@ router.post('/cidades', CidadesController.insertValidator, CidadesController.ins
 
 /**
  * ROTA DE CONSULTA DE CIDADE -- TODAS AS CIDADES
- * @param getAllCidadesProps
+ * @param ICidadesID
  */
 router.get('/cidades', CidadesController.getAllvalidator, CidadesController.getAll);
 
@@ -29,7 +29,7 @@ router.get('/cidade', CidadesController.getByIdValidator, CidadesController.getB
 
 /**
  * ROTA DE DELETE DE CIDADE
- * @param ICidades
+ * @param ICidadesID
  */
 router.delete('/cidades', CidadesController.deleteValidator, CidadesController.deleteById);
 
