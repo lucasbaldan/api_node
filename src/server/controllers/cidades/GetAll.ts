@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { StatusCodes } from "http-status-codes";
 import { YupMiddleware } from "../../shared/middlewares";
 import { Request, Response } from "express";
-import { defaultResponse, GetAllCidadesProps, ICidade } from "../../entities";
+import { defaultResponse, GetAllCidadesProps, ICidade, resultGet } from "../../entities";
 import { CidadesModels } from '../../database/models';
 
 export const getAllvalidator = YupMiddleware({
@@ -21,19 +21,20 @@ export const getAllvalidator = YupMiddleware({
 export const getAll = async (req: Request<{}, {}, GetAllCidadesProps>, res: Response) => {
 
     const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-    let result: Error | ICidade[];
+    let result: Error | resultGet<ICidade>;
 
     result = await CidadesModels.getCidade(req.body, undefined);
 
     if (result instanceof Error) {
         response.errors = { default: result.message };
     } 
-    else if (result.length === 0){
+    else if (result.filterCount === 0){
+        response.data = [];
         response.errors = { default: "Nenhum registro encontrado para os parâmetros informado" };
         response.statusCode = StatusCodes.NOT_FOUND;
     } 
     else {
-        response.data = result;
+        response.data = result.items;
         response.status = true;
         response.statusCode = StatusCodes.OK;
     }

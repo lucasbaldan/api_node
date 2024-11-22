@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { CidadesModels } from '../../database/models';
 import { YupMiddleware } from "../../shared/middlewares";
-import { defaultResponse, ICidade } from "../../entities";
+import { defaultResponse, ICidade, resultGet } from "../../entities";
 
 export const getByIdValidator = YupMiddleware({
     body: yup.object().shape({
@@ -14,23 +14,23 @@ export const getByIdValidator = YupMiddleware({
 export const getById = async (req: Request<{}, {}, ICidade>, res: Response) => {
 
         const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-        let result: Error | ICidade[];
+        let result: Error | resultGet<ICidade>;
 
         result = await CidadesModels.getCidade(undefined, req.body.id);
 
         if (result instanceof Error) {
             response.errors = { default: result.message };
         } 
-        else if (result.length === 0){
+        else if (result.totalCount === 0){
             response.errors = { default: "Nenhum registro encontrado para o ID informado" };
             response.statusCode = StatusCodes.NOT_FOUND;
         } 
-        else if (result.length !== 1){
+        else if (result.totalCount !== 1){
             response.errors = { default: "Erro ao processar requisição solicitada" };
             response.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
         }
         else {
-            response.data = result[0];
+            response.data = result.items[0];
             response.status = true;
             response.statusCode = StatusCodes.OK;
         }

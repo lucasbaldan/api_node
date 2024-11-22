@@ -1,7 +1,8 @@
+import { CidadesModels } from ".";
 import { GetAllCidadesProps, ICidade } from "../../../entities";
 import { Conn } from "../../knex";
 
-export const getCidade = async (parametro?: GetAllCidadesProps, id?: number): Promise<ICidade[] | Error> => {
+export const getCidade = async (parametro?: GetAllCidadesProps, id?: number): Promise<{items: ICidade[], totalCount: number, filterCount?: number} | Error> => {
     let query = Conn('cidades').select('*');
 
     try {
@@ -10,7 +11,7 @@ export const getCidade = async (parametro?: GetAllCidadesProps, id?: number): Pr
             const result = await query.where('id', id)
                 .first();
 
-            return result ? [result] : [];
+            return result ? {items: [result], totalCount: 1} : {items: [], totalCount: 0};
 
         } else if (parametro !== undefined) {
             if (parametro.cidade !== undefined) {
@@ -18,14 +19,17 @@ export const getCidade = async (parametro?: GetAllCidadesProps, id?: number): Pr
                 if (parametro.cidade.id !== undefined) query = query.whereLike('id', `%${parametro.cidade.id}%`);
                 if (parametro.cidade.nome) query = query.orWhereLike('nome', `%${parametro.cidade.nome}%`);
                 if (parametro.cidade.id_estado) query = query.orWhere('id_estado', '=', parametro.cidade.id_estado);
-                if (parametro.cidade.ativo) query = query.orWhere('ativo', '=', parametro?.cidade.ativo);
+                if (parametro.cidade.ativo) query = query.orWhere('ativo', '=', parametro.cidade.ativo);
             }
             query.offset(((parametro.page || 1) - 1) * (parametro.limit || 100));
             query.limit(parametro.limit || 100);
 
+            const totalCount = await CidadesModels.Count();
+            if(totalCount instanceof Error) return totalCount;
+
             const result = await query;
 
-            return result ?? [];
+            return result ? {items: result, totalCount: totalCount, filterCount: result.length} : {items: [], totalCount: 0, filterCount: 0};
         }
 
         return Error("Erro ao processar consulta na base de dados");

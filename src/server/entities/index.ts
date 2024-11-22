@@ -1,3 +1,3 @@
 export * from './CidadeEntity';
-export * from './HTTPResponse';
+export * from './Helpers';
 export * from './EstadoEntity';

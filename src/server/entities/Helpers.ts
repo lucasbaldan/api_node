@@ -4,3 +4,9 @@ export interface defaultResponse {
     errors: any,
     data: any
 }
+
+export interface resultGet<T> {
+    items: T[],
+    totalCount: number,
+    filterCount?: number,
+}
