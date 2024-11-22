@@ -1,29 +1,29 @@
 import * as yup from 'yup';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CidadesModels } from '../../database/models';
+import { CidadesModels, EstadosModels } from '../../database/models';
 import { YupMiddleware } from "../../shared/middlewares";
-import { defaultResponse, GetAllCidadesProps, ICidade, ResultGet } from "../../entities";
+import { defaultResponse, GetAllEstadosProps, IEstado, ResultGet } from "../../entities";
 
 export const getAllvalidator = YupMiddleware({
     body: yup.object().shape({
         page: yup.number().optional().moreThan(0),
         limit: yup.number().optional().moreThan(0),
-        cidade: yup.object({
+        estado: yup.object({
             id: yup.number().optional().moreThan(0),
             nome: yup.string().optional(),
-            id_estado: yup.string().optional(),
+            codigo_ibge: yup.number().optional(),
             ativo: yup.boolean().optional()
         })
     })
 });
 
-export const getAll = async (req: Request<{}, {}, GetAllCidadesProps>, res: Response) => {
+export const getAll = async (req: Request<{}, {}, GetAllEstadosProps>, res: Response) => {
 
     const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-    let result: Error | ResultGet<ICidade>;
+    let result: Error | ResultGet<IEstado>;
 
-    result = await CidadesModels.getCidade(req.body, undefined);
+    result = await EstadosModels.getEstado(req.body, undefined);
 
     if (result instanceof Error) {
         response.errors = { default: result.message };

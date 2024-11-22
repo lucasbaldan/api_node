@@ -1,7 +1,8 @@
-import { GetAllCidadesProps, GetAllEstadosProps, ICidade, IEstado } from "../../../entities";
+import { EstadosModels } from ".";
+import { GetAllEstadosProps, IEstado, ResultGet } from "../../../entities";
 import { Conn } from "../../knex";
 
-export const getEstado = async (parametro?: GetAllEstadosProps, id?: number): Promise<IEstado[] | Error> => {
+export const getEstado = async (parametro?: GetAllEstadosProps, id?: number): Promise<ResultGet<IEstado> | Error> => {
     let query = Conn('estados').select('*');
 
     try {
@@ -10,7 +11,7 @@ export const getEstado = async (parametro?: GetAllEstadosProps, id?: number): Pr
             const result = await query.where('id', id)
                 .first();
 
-            return result ? [result] : [];
+            return result ? {items: [result], totalCount: 1} : {items: [], totalCount: 0};
 
         } else if (parametro !== undefined) {
             if (parametro.estado !== undefined) {
@@ -21,12 +22,15 @@ export const getEstado = async (parametro?: GetAllEstadosProps, id?: number): Pr
                 if (parametro.estado.ativo) query = query.orWhere('ativo', '=', parametro.estado.ativo);
             
             }
-            query.offset(((parametro.page || 1) - 1) * (parametro.limit || 100));
-            query.limit(parametro.limit || 100);
+            query.offset(((parametro.page || 1) - 1) * (parametro.limit || Number(process.env.DEFAULT_ROWS_READ)));
+            query.limit(parametro.limit || Number(process.env.DEFAULT_ROWS_READ));
 
+            const totalCount = await EstadosModels.Count();
+            if(totalCount instanceof Error) return totalCount;
+            
             const result = await query;
 
-            return result ?? [];
+            return result ? {items: result, totalCount: totalCount, filterCount: result.length} : {items: [], totalCount: 0};
         }
 
         return Error("Erro ao processar consulta na base de dados");

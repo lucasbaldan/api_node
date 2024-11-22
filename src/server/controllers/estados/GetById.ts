@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CidadesModels } from '../../database/models';
+import { CidadesModels, EstadosModels } from '../../database/models';
 import { YupMiddleware } from "../../shared/middlewares";
-import { defaultResponse, ICidade, ResultGet } from "../../entities";
+import { defaultResponse, IEstado, ResultGet } from "../../entities";
 
 export const getByIdValidator = YupMiddleware({
     body: yup.object().shape({
@@ -11,12 +11,12 @@ export const getByIdValidator = YupMiddleware({
     })
 });
 
-export const getById = async (req: Request<{}, {}, ICidade>, res: Response) => {
+export const getById = async (req: Request<{}, {}, IEstado>, res: Response) => {
 
         const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-        let result: Error | ResultGet<ICidade>;
+        let result: Error | ResultGet<IEstado>;
 
-        result = await CidadesModels.getCidade(undefined, req.body.id);
+        result = await EstadosModels.getEstado(undefined, req.body.id);
 
         if (result instanceof Error) {
             response.errors = { default: result.message };

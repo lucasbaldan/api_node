@@ -5,7 +5,7 @@ export interface defaultResponse {
     data: any
 }
 
-export interface resultGet<T> {
+export interface ResultGet<T> {
     items: T[],
     totalCount: number,
     filterCount?: number,

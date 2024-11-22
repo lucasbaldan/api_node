@@ -4,7 +4,7 @@ import { IEstado } from "../../entities";
 export const seed = async (Conn: Knex) => {
     const [{ count }] = await Conn('estados').count<[{count: number}]>('* as count');
     if(!Number.isInteger(count) || Number(count)) {
-      console.log('-- seed estados não executado -> a tabela possui registros -- ');
+      // console.log('-- seed estados não executado -> a tabela possui registros -- ');
       return;
     }
 
@@ -18,5 +18,6 @@ export const seed = async (Conn: Knex) => {
         nome: estado
       })) as IEstado[];
 
+    console.log(" -- executando carga de estados --");  
     await Conn('estados').insert(dadosEstados);
 }
