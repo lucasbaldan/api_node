@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CidadesController, EstadosController } from '../controllers';
+import { CidadesController, EstadosController, UsuariosController } from '../controllers';
 
 const router = Router();
 
@@ -38,6 +38,12 @@ router.post('/estados', EstadosController.insertValidator, EstadosController.ins
 router.post('/estados/get', EstadosController.getAllvalidator, EstadosController.getAll);
 router.post('/estados/id', EstadosController.getByIdValidator, EstadosController.getById);
 router.delete('/estados', EstadosController.deleteValidator, EstadosController.deleteById);
+
+router.post('/usuarios', UsuariosController.insertValidator, UsuariosController.insertOrUpdate);
+router.post('/usuarios/get', UsuariosController.getAllvalidator, UsuariosController.getAll);
+router.post('/usuarios/id', UsuariosController.getByIdValidator, UsuariosController.getById);
+router.delete('/usuarios', UsuariosController.deleteValidator, UsuariosController.deleteById);
+router.post('/usuarios/login', UsuariosController.loginUsuarioSenhaValidator, UsuariosController.LoginUsuarioSenha);
 
 
 export { router }; 

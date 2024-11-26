@@ -3,6 +3,7 @@ import * as get from './Get';
 import * as count from './Count';
 import * as update from './Update';
 import * as deleteById from './Delete';
+import * as login from './Login';
 
 
 export const UsuariosModels = {
@@ -11,4 +12,5 @@ export const UsuariosModels = {
     ...deleteById,
     ...update,
     ...count,
+    ...login,
 }

@@ -17,9 +17,9 @@ export const getUsuario = async (parametro?: GetAllUsuarioProps, id?: number): P
             if (parametro.usuario !== undefined) {
 
                 if (parametro.usuario.id !== undefined) query = query.whereLike('id', `%${parametro.usuario.id}%`);
-                if (parametro.usuario.login) query = query.orWhereLike('login', `%${parametro.usuario.login}%`);
-                if (parametro.usuario.id_pessoa) query = query.orWhereLike('id_pessoa', parametro.usuario.id_pessoa);
-                if (parametro.usuario.ativo) query = query.orWhere('ativo', '=', parametro.usuario.ativo);
+                if (parametro.usuario.login !== undefined) query = query.orWhereLike('login', `%${parametro.usuario.login}%`);
+                if (parametro.usuario.id_pessoa !== undefined) query = query.orWhereLike('id_pessoa', `%${parametro.usuario.id_pessoa}%`);
+                if (parametro.usuario.ativo !== undefined) query = query.orWhere('ativo', '=', parametro.usuario.ativo);
             }
             query.offset(((parametro.page || 1) - 1) * (parametro.limit || Number(process.env.DEFAULT_ROWS_READ)));
             query.limit(parametro.limit || Number(process.env.DEFAULT_ROWS_READ));

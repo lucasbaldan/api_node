@@ -9,8 +9,8 @@ export const insertValidator = YupMiddleware({
     body: yup.object().shape({
         id: yup.number().optional().moreThan(0),
         login: yup.string().required("Atributo --nome-- não informado").min(6, "Atributo --login-- deve possuir pelo menos 6 caracteres"),
-        senha: yup.string().required("Atributo --senha-- não informado").min(6, "Atributo --senha-- deve possuir pelo menos 6 caracteres"),
-        id_usuario: yup.number().required("Atributo --id_usuário-- não informado"),
+        senha: yup.string().strict().required("Atributo --senha-- não informado").min(6, "Atributo --senha-- deve possuir pelo menos 6 caracteres"),
+        id_pessoa: yup.number().required("Atributo --id_pessoa-- não informado"),
         ativo: yup.boolean().required("Atributo --ativo-- não informado")
     })
 });
