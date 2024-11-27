@@ -1,5 +1,6 @@
 import { Knex } from "knex";
 import { ICidade, IUsuario } from "../../entities";
+import { UsuariosModels } from "../models";
 
 export const seed = async (Conn: Knex) => {
     const [{ count }] = await Conn('usuarios').count<[{count: number}]>('* as count');
@@ -11,6 +12,6 @@ export const seed = async (Conn: Knex) => {
     const usuarios: IUsuario = {login: "sysadmin", ativo: true, id_pessoa: 1, senha: String(123456), id: Number(undefined)} 
       
     console.log(" -- executando carga de usuários -- ");
-    await Conn('usuarios').insert(usuarios);
+    await UsuariosModels.Insert(usuarios);
     
 }

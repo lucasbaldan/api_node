@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { CidadesController, EstadosController, UsuariosController } from '../controllers';
+import { authenticator } from '../shared/middlewares';
 
 const router = Router();
 
@@ -34,7 +35,7 @@ router.post('/cidade/id', CidadesController.getByIdValidator, CidadesController.
 router.delete('/cidades', CidadesController.deleteValidator, CidadesController.deleteById);
 
 
-router.post('/estados', EstadosController.insertValidator, EstadosController.insertOrUpdate);
+router.post('/estados', authenticator, EstadosController.insertValidator, EstadosController.insertOrUpdate);
 router.post('/estados/get', EstadosController.getAllvalidator, EstadosController.getAll);
 router.post('/estados/id', EstadosController.getByIdValidator, EstadosController.getById);
 router.delete('/estados', EstadosController.deleteValidator, EstadosController.deleteById);
