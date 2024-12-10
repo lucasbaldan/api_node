@@ -2,8 +2,8 @@ import * as yup from 'yup';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UsuariosModels } from "../../database/models";
-import { YupMiddleware } from "../../shared/middlewares";
 import { defaultResponse, IUsuario } from '../../entities';
+import { JWTService, YupMiddleware } from "../../shared/middlewares";
 
 export const loginUsuarioSenhaValidator = YupMiddleware({
     body: yup.object().shape({
@@ -20,13 +20,17 @@ export const LoginUsuarioSenha = async (req: Request<{}, {}, IUsuario>, res: Res
     if (usuarioLogado instanceof Error) {
         response.errors = { default: usuarioLogado.message };
     } else {
-        if(typeof usuarioLogado === 'object') response.data = usuarioLogado;
+        const jwt = JWTService.gerarJWT({ userID: usuarioLogado.id });
+        if(jwt === 'SECRET_NOT_FOUND') {
+            response.errors = { default: "CHAVE DE CRIPTOGRAFIA NÃO ENCONTRADA"};
+        }
+        response.acessToken = jwt;
         response.status = true;
         response.statusCode = StatusCodes.OK;
     }
 
     //NÃO LEVAR O STATUSCODE PARA A RESPOSTA DO SERVIDOR
-    const {statusCode, ...finalResponse} = response;
+    const { statusCode, ...finalResponse } = response;
     //--------------------------------------------------
 
     res.status(response.statusCode).json(finalResponse);
