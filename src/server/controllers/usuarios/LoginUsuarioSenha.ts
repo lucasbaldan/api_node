@@ -24,7 +24,7 @@ export const LoginUsuarioSenha = async (req: Request<{}, {}, IUsuario>, res: Res
         if(jwt === 'SECRET_NOT_FOUND') {
             response.errors = { default: "CHAVE DE CRIPTOGRAFIA NÃO ENCONTRADA"};
         }
-        response.acessToken = jwt;
+        response.data = {acessToken: jwt};
         response.status = true;
         response.statusCode = StatusCodes.OK;
     }

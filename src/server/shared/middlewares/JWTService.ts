@@ -5,7 +5,7 @@ const gerarJWT = (dados: JWTData): string | 'SECRET_NOT_FOUND' => {
 
     if (process.env.JWT_SECRET_KEY === undefined) return 'SECRET_NOT_FOUND';
 
-    return jwt.sign(dados, process.env.JWT_SECRET_KEY, { expiresIn: '3h' });
+    return jwt.sign(dados, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 }
 
 const validarJWT = (token: string): JWTData | 'SECRET_NOT_FOUND' | 'INVALID_JWT_TOKEN' => {

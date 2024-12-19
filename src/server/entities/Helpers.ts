@@ -1,5 +1,4 @@
 export interface defaultResponse {
-    acessToken?: string,
     statusCode: number,
     status: boolean,
     errors: any,

@@ -14,7 +14,7 @@ router.get('/', (_, res) => {
  * ROTA DE CADASTRO DE CIDADE
  * @param ICidades
  */
-router.post('/cidades', CidadesController.insertValidator, CidadesController.insertOrUpdate);
+router.post('/cidades', authenticator, CidadesController.insertValidator, CidadesController.insertOrUpdate);
 
 /**
  * ROTA DE CONSULTA DE CIDADE -- TODAS AS CIDADES
@@ -36,14 +36,14 @@ router.delete('/cidades', CidadesController.deleteValidator, CidadesController.d
 
 
 router.post('/estados', authenticator, EstadosController.insertValidator, EstadosController.insertOrUpdate);
-router.post('/estados/get', EstadosController.getAllvalidator, EstadosController.getAll);
-router.post('/estados/id', EstadosController.getByIdValidator, EstadosController.getById);
-router.delete('/estados', EstadosController.deleteValidator, EstadosController.deleteById);
+router.post('/estados/get', authenticator, EstadosController.getAllvalidator, EstadosController.getAll);
+router.post('/estados/id', authenticator, EstadosController.getByIdValidator, EstadosController.getById);
+router.delete('/estados', authenticator, EstadosController.deleteValidator, EstadosController.deleteById);
 
-router.post('/usuarios', UsuariosController.insertValidator, UsuariosController.insertOrUpdate);
-router.post('/usuarios/get', UsuariosController.getAllvalidator, UsuariosController.getAll);
-router.post('/usuarios/id', UsuariosController.getByIdValidator, UsuariosController.getById);
-router.delete('/usuarios', UsuariosController.deleteValidator, UsuariosController.deleteById);
+router.post('/usuarios', authenticator, UsuariosController.insertValidator, UsuariosController.insertOrUpdate);
+router.post('/usuarios/get', authenticator, UsuariosController.getAllvalidator, UsuariosController.getAll);
+router.post('/usuarios/id', authenticator, UsuariosController.getByIdValidator, UsuariosController.getById);
+router.delete('/usuarios', authenticator, UsuariosController.deleteValidator, UsuariosController.deleteById);
 router.post('/usuarios/login', UsuariosController.loginUsuarioSenhaValidator, UsuariosController.LoginUsuarioSenha);
 
 
