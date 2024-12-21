@@ -20,19 +20,19 @@ router.post('/cidades', authenticator, CidadesController.insertValidator, Cidade
  * ROTA DE CONSULTA DE CIDADE -- TODAS AS CIDADES
  * @param ICidadesID
  */
-router.post('/cidades/get', CidadesController.getAllvalidator, CidadesController.getAll);
+router.post('/cidades/get', authenticator, CidadesController.getAllvalidator, CidadesController.getAll);
 
 /**
  * ROTA DE CONSULTA DE CIDADE -- POR ID
  * @param getAllCidadesProps
  */
-router.post('/cidade/id', CidadesController.getByIdValidator, CidadesController.getById);
+router.post('/cidade/id', authenticator, CidadesController.getByIdValidator, CidadesController.getById);
 
 /**
  * ROTA DE DELETE DE CIDADE
  * @param ICidadesID
  */
-router.delete('/cidades', CidadesController.deleteValidator, CidadesController.deleteById);
+router.delete('/cidades', authenticator, CidadesController.deleteValidator, CidadesController.deleteById);
 
 
 router.post('/estados', authenticator, EstadosController.insertValidator, EstadosController.insertOrUpdate);

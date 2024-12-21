@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 import path from 'path';
+import 'dotenv/config';
 
 export const development: Knex.Config = {
     client: 'sqlite3',
@@ -27,5 +28,18 @@ export const test: Knex.Config = {
 }
 
 export const production: Knex.Config = {
-    ...development
+    client: 'mysql',
+    migrations: {
+        directory: path.resolve(__dirname, '..', 'migrations'),
+    },
+    seeds: {
+        directory: path.resolve(__dirname, '..', 'seeds'),
+    },
+    connection: {
+        host: process.env.DB_HOST,
+        database: process.env.DB_NAME,
+        port: Number(process.env.DB_PORT || 3306),
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+    },
 }

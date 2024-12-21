@@ -21,4 +21,5 @@ Conn.migrate.latest()
     })
     .catch(error => {
         console.log(error);
+        Conn.migrate.rollback();
     })

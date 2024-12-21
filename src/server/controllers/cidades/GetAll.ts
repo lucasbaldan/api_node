@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CidadesModels } from '../../database/models';
+import { CidadesModels, EstadosModels } from '../../database/models';
 import { YupMiddleware } from "../../shared/middlewares";
 import { defaultResponse, GetAllCidadesProps, ICidade, ResultGet } from "../../entities";
 
@@ -27,21 +27,32 @@ export const getAll = async (req: Request<{}, {}, GetAllCidadesProps>, res: Resp
 
     if (result instanceof Error) {
         response.errors = { default: result.message };
-    } 
-    else if (result.filterCount === 0){
+    }
+    else if (result.filterCount === 0) {
         response.data = [];
         response.errors = { default: "Nenhum registro encontrado para os parâmetros informado" };
         response.statusCode = StatusCodes.NOT_FOUND;
-    } 
+    }
     else {
+
+        for (let element of result.items) {
+            if (typeof element.id_estado !== 'number') { }
+            else {
+                const resultEstado = await EstadosModels.getEstado(undefined, element.id_estado);
+                if (resultEstado instanceof Error) {
+                    response.errors = { default: resultEstado.message };
+                    res.status(response.statusCode).json(response);
+                } else {
+                    element.id_estado = resultEstado.items[0];
+                }
+            }
+        }
+        
+
         response.data = result.items;
         response.status = true;
         response.statusCode = StatusCodes.OK;
     }
 
-    //NÃO LEVAR O STATUSCODE PARA A RESPOSTA DO SERVIDOR
-    const {statusCode, ...finalResponse} = response;
-    //--------------------------------------------------
-
-    res.status(response.statusCode).json(finalResponse);
+    res.status(response.statusCode).json(response);
 }
