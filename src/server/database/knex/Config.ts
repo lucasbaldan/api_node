@@ -28,9 +28,11 @@ export const test: Knex.Config = {
 }
 
 export const production: Knex.Config = {
-    client: 'mysql',
+    client: process.env.DB_DRIVER,
     migrations: {
+        tableName: 'sistema_migrations',
         directory: path.resolve(__dirname, '..', 'migrations'),
+        disableTransactions: false,
     },
     seeds: {
         directory: path.resolve(__dirname, '..', 'seeds'),

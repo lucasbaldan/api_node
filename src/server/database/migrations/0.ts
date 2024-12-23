@@ -13,7 +13,7 @@ export async function up(knex: Knex) {
         .createTable('cidades', table => {
             table.bigIncrements('id').index().primary(),
                 table.string('nome', 255).index().notNullable(),
-                table.bigInteger('id_estado').index().nullable().references('id').inTable('estados').onDelete('RESTRICT').onUpdate('CASCADE'),
+                table.bigInteger('id_estado').unsigned().index().nullable().references('id').inTable('estados').onDelete('RESTRICT').onUpdate('CASCADE'),
                 table.boolean('ativo').nullable().defaultTo(true)
         })
         .createTable('usuarios', table => {

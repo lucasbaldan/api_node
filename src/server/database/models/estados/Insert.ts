@@ -1,13 +1,22 @@
 import { IEstado } from "../../../entities";
 import { Conn } from "../../knex";
 
-export const Insert = async (estado: Omit<IEstado, 'id'>): Promise<IEstado | Error> => {
+export const Insert = async (estado: Omit<IEstado, 'id'>): Promise<number | Error> => {
     try {
-        const [estadoCriado] = await Conn('estados').insert(estado).returning("*");
-        if (typeof estadoCriado === 'object') {
-            return estadoCriado;
+        if (Conn.client.config.client === 'mysql' || Conn.client.config.client === 'mysql2') {
+            const [estadoCriado] = await Conn('estados').insert(estado);
+            if (typeof estadoCriado === 'number') {
+                return estadoCriado;
+            } else {
+                return new Error('Erro ao processar insert na base de dados');
+            }
         } else {
-            return new Error('Erro ao processar insert na base de dados');
+            const [estadoCriado] = await Conn('estados').insert(estado).returning("id");
+            if (typeof estadoCriado === 'object') {
+                return estadoCriado.id;
+            } else {
+                return new Error('Erro ao processar insert na base de dados');
+            }
         }
     } catch (error) {
         console.log(error);

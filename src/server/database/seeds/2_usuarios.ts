@@ -9,7 +9,7 @@ export const seed = async (Conn: Knex) => {
       return;
     }
 
-    const usuarios: IUsuario = {login: "sysadmin", ativo: true, id_pessoa: 1, senha: String(123456), id: Number(undefined)} 
+    const usuarios: IUsuario = {login: "sysadmin", ativo: true, id_pessoa: 1, senha: String(123456), id: Number(null)} 
       
     console.log(" -- executando carga de usuários -- ");
     await UsuariosModels.Insert(usuarios);

@@ -9,14 +9,14 @@ export const insertValidator = YupMiddleware({
     body: yup.object().shape({
         id: yup.number().optional().moreThan(0),
         nome: yup.string().required("Atributo --nome-- não informado").min(4, "Atributo --nome-- deve possuir pelo menos 4 caracteres"),
-        codigo_ibge: yup.number().required("Atributo --id_estado-- não informado"),
+        codigo_ibge: yup.number().required("Atributo --codigo_ibge-- não informado"),
         ativo: yup.boolean().required("Atributo --ativo-- não informado")
     })
 });
 
 export const insertOrUpdate = async (req: Request<{}, {}, IEstado>, res: Response) => {
     const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
-    let result: void | IEstado | Error;
+    let result: void | number | Error;
 
     if (req.body.id === undefined) {
         result = await EstadosModels.Insert(req.body);
@@ -27,7 +27,7 @@ export const insertOrUpdate = async (req: Request<{}, {}, IEstado>, res: Respons
     if (result instanceof Error) {
         response.errors = { default: result.message };
     } else {
-        if(typeof result === 'object') response.data = result;
+        if(typeof result === 'number') response.data = result;
         response.status = true;
         response.statusCode = StatusCodes.OK;
     }
