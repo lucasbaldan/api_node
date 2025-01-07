@@ -1,9 +1,11 @@
 import * as yup from 'yup';
+import { Conn } from '../../database/knex';
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { EstadosModels } from "../../database/models";
 import { YupMiddleware } from "../../shared/middlewares";
 import { defaultResponse, IEstado } from '../../entities';
+import { AuditoriaModels } from '../../database/models/auditoria';
 
 export const insertValidator = YupMiddleware({
     body: yup.object().shape({
@@ -18,23 +20,36 @@ export const insertOrUpdate = async (req: Request<{}, {}, IEstado>, res: Respons
     const response: defaultResponse = { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, status: false, errors: '', data: '' };
     let result: void | number | Error;
 
-    if (req.body.id === undefined) {
-        result = await EstadosModels.Insert(req.body);
-    } else {
-        result = await EstadosModels.Update(req.body);
-    }
+    const transaction = await Conn.transaction();
 
-    if (result instanceof Error) {
-        response.errors = { default: result.message };
-    } else {
-        if(typeof result === 'number') response.data = result;
+    try {
+
+        if (req.body.id === undefined) {
+            result = await EstadosModels.Insert(req.body, transaction);
+        } else {
+            result = await EstadosModels.Update(req.body);
+        }
+
+        if (result instanceof Error) {
+            throw result;
+        }
+        if (typeof result === 'number') response.data = result;
+
+        const resultAuditoria = await AuditoriaModels.Insert({acao: 'INSERT', dados_acao: JSON.stringify(req.body), dados_requisicao: '', id_usuario: '1', nome_pessoa_usuario: 'Lucas Faé Baldan', nome_usuario: 'lucas.baldan'}, transaction);
+        if (resultAuditoria instanceof Error) {
+            throw resultAuditoria;
+        }
+        
         response.status = true;
         response.statusCode = StatusCodes.OK;
-    }
 
-    //NÃO LEVAR O STATUSCODE PARA A RESPOSTA DO SERVIDOR
-    const {statusCode, ...finalResponse} = response;
+        await transaction.commit();
+    }
+    catch (e) {
+        await transaction.rollback();
+        response.errors = { default: e instanceof Error ? e.message : "Erro ao processar insert na base de dados" };
+    }
     //--------------------------------------------------
 
-    res.status(response.statusCode).json(finalResponse);
+    res.status(response.statusCode).json(response);
 } 

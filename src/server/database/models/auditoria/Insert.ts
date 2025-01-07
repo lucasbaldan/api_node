@@ -1,19 +1,19 @@
 import { Knex } from "knex";
-import { IEstado } from "../../../entities";
+import { IAuditoria} from "../../../entities";
 
-export const Insert = async (estado: Omit<IEstado, 'id'>, conexao: Knex.Transaction): Promise<number | Error> => {
+export const Insert = async (auditoria: Omit<IAuditoria, 'id'>, conexao: Knex.Transaction): Promise<number | Error> => {
     try {
         if (conexao.client.config.client === 'mysql' || conexao.client.config.client === 'mysql2') {
-            const [estadoCriado] = await conexao('estados').insert(estado);
-            if (typeof estadoCriado === 'number') {
-                return estadoCriado;
+            const [registroCriado] = await conexao('auditoria').insert(auditoria);
+            if (typeof registroCriado === 'number') {
+                return registroCriado;
             } else {
                 return new Error('Erro ao processar insert na base de dados');
             }
         } else {
-            const [estadoCriado] = await conexao('estados').insert(estado).returning("id");
-            if (typeof estadoCriado === 'object') {
-                return estadoCriado.id;
+            const [registroCriado] = await conexao('auditoria').insert(auditoria).returning("id");
+            if (typeof registroCriado === 'object') {
+                return registroCriado.id;
             } else {
                 return new Error('Erro ao processar insert na base de dados');
             }

@@ -7,8 +7,7 @@ export const seed = async (Conn: Knex) => {
       // console.log('-- seed cidades não executado -> a tabela possui registros -- ');
       return;
     }
-
-
+    
     const cidadesES = [
         "Afonso Cláudio",
         "Água Doce do Norte",
