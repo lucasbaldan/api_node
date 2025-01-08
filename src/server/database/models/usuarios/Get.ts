@@ -11,7 +11,14 @@ export const getUsuario = async (parametro?: GetAllUsuarioProps, id?: number): P
             const result = await query.where('id', id)
                 .first();
 
-            return result ? { items: [result], totalCount: 1 } : { items: [], totalCount: 0 };
+            if (result !== undefined) {
+                const resultPessoa = await Conn('pessoas').where('id', result.id_pessoa).first();
+                result.id_pessoa = resultPessoa ? resultPessoa : result.id_pessoa;
+
+                return { items: [result], totalCount: 1 };
+            }
+
+            return { items: [], totalCount: 0 };
 
         } else if (parametro !== undefined) {
             if (parametro.usuario !== undefined) {

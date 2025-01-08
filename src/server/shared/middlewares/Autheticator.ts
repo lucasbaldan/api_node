@@ -12,8 +12,7 @@ export const authenticator: RequestHandler = (req, res, next) => {
         response.errors = { auth: "Erro ao autenticar. Formato de Autenticação inválido" };
         response.statusCode = StatusCodes.BAD_REQUEST;
 
-        const { statusCode, ...finalResponse } = response;
-        res.status(statusCode).json(finalResponse);
+        res.status(response.statusCode).json(response);
         return;
     }
 
@@ -23,8 +22,7 @@ export const authenticator: RequestHandler = (req, res, next) => {
         response.errors = { auth: "Erro ao autenticar. Formato de Autenticação inválido" };
         response.statusCode = StatusCodes.BAD_REQUEST;
 
-        const { statusCode, ...finalResponse } = response;
-        res.status(statusCode).json(finalResponse);
+        res.status(response.statusCode).json(response);
         return;
     }
 
@@ -32,15 +30,12 @@ export const authenticator: RequestHandler = (req, res, next) => {
     if (jwtValidado === 'SECRET_NOT_FOUND') {
         response.errors = { auth: "Erro ao autenticar. Chave de Criptografia não encontrado no servidor" };
         response.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-        const { statusCode, ...finalResponse } = response;
-        res.status(statusCode).json(finalResponse);
+        res.status(response.statusCode).json(response);
         return;
     } else if (jwtValidado === 'INVALID_JWT_TOKEN') {
         response.errors = { auth: "Erro ao autenticar. Autenticação inválida para o tipo de serviço requisitado" };
         response.statusCode = StatusCodes.BAD_REQUEST;
-
-        const { statusCode, ...finalResponse } = response;
-        res.status(statusCode).json(finalResponse);
+        res.status(response.statusCode).json(response);
         return;
     }
 

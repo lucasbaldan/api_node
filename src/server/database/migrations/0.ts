@@ -41,10 +41,11 @@ export async function up(knex: Knex) {
         .createTable('auditoria', table => {
             table.bigIncrements('id').index().primary(),
                 table.string('id_usuario', 20).index().notNullable(),
-                table.string('nome_usuario', 500).notNullable(),
-                table.string('nome_pessoa_usuario', 500).notNullable(),
-                table.string('acao', 50).notNullable(),
-                table.text('dados_acao').notNullable(),
+                table.string('nome_usuario', 500).index().notNullable(),
+                table.string('nome_pessoa_usuario', 500).index().notNullable(),
+                table.string('acao', 50).index().notNullable(),
+                table.dateTime('dthr_acao').index().notNullable(),
+                table.text('dados_acao').index().notNullable(),
                 table.text('dados_requisicao').nullable()
         })
         .then(() => console.log('--banco e tabelas criados com sucesso--'));

@@ -4,6 +4,7 @@ export interface IAuditoria {
     nome_usuario: string,
     nome_pessoa_usuario: string,
     acao: string,
+    dthr_acao: string,
     dados_acao: string,
     dados_requisicao: string,
 }
