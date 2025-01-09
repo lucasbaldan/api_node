@@ -1,6 +1,7 @@
 export interface IEstado {
     id: number
     nome: string,
+    uf: string,
     codigo_ibge: number,
     ativo: boolean
 }

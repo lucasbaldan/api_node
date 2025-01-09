@@ -1,9 +1,10 @@
 import { IEstado } from "./EstadoEntity"
 
 export interface ICidade {
-    id: number
+    id: number,
     nome: string,
     id_estado: number | IEstado,
+    codigo_ibge: number,
     ativo: boolean
 }
 

@@ -7,6 +7,7 @@ export async function up(knex: Knex) {
         .createTable('estados', table => {
             table.bigIncrements('id').index().notNullable(),
                 table.string('nome', 255).index().notNullable(),
+                table.string('UF', 2).index().nullable(),
                 table.bigInteger('codigo_ibge').nullable(),
                 table.boolean('ativo').notNullable().defaultTo(true)
         })
@@ -14,7 +15,8 @@ export async function up(knex: Knex) {
             table.bigIncrements('id').index().primary(),
                 table.string('nome', 255).index().notNullable(),
                 table.bigInteger('id_estado').unsigned().index().nullable().references('id').inTable('estados').onDelete('RESTRICT').onUpdate('CASCADE'),
-                table.boolean('ativo').nullable().defaultTo(true)
+                table.bigInteger('codigo_ibge').nullable(),
+                table.boolean('ativo').notNullable().defaultTo(true)
         })
         .createTable('pessoas', table => {
             table.bigIncrements('id').index().notNullable(),
@@ -27,15 +29,15 @@ export async function up(knex: Knex) {
                 table.string('numero_endereco', 10).nullable(),
                 table.string('numero_telefone', 20).index().nullable(),
                 table.date('data_nascimento').nullable(),
-                table.bigInteger('id_pessoa_gestor').nullable().index().references('id').inTable('pessoas').onDelete('RESTRICT').onUpdate('CASCADE'),
-                table.bigInteger('id_cidade').nullable().index().references('id').inTable('cidades').onDelete('RESTRICT').onUpdate('CASCADE'),
+                table.bigInteger('id_pessoa_gestor').unsigned().nullable().index().references('id').inTable('pessoas').onDelete('RESTRICT').onUpdate('CASCADE'),
+                table.bigInteger('id_cidade').unsigned().nullable().index().references('id').inTable('cidades').onDelete('RESTRICT').onUpdate('CASCADE'),
                 table.boolean('ativo').notNullable().defaultTo(true)
         })
         .createTable('usuarios', table => {
             table.bigIncrements('id').index().primary(),
                 table.string('login', 255).index().notNullable().checkLength('>=', 6),
                 table.string('senha', 500).notNullable().checkLength('>=', 6),
-                table.bigInteger('id_pessoa').index().references('id').inTable('pessoas').onDelete('RESTRICT').onUpdate('CASCADE').notNullable(),
+                table.bigInteger('id_pessoa').unsigned().index().references('id').inTable('pessoas').onDelete('RESTRICT').onUpdate('CASCADE').notNullable(),
                 table.boolean('ativo').nullable().defaultTo(true)
         })
         .createTable('auditoria', table => {

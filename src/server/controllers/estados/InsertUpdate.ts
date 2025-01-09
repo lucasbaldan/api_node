@@ -6,6 +6,7 @@ import { EstadosModels, UsuariosModels } from "../../database/models";
 import { YupMiddleware } from "../../shared/middlewares";
 import { defaultResponse, IEstado } from '../../entities';
 import { AuditoriaModels } from '../../database/models/auditoria';
+import { Formatadores, FormatarDateTimeBanco } from '../../shared/helpers/Formatters';
 
 export const insertValidator = YupMiddleware({
     body: yup.object().shape({
@@ -48,7 +49,7 @@ export const insertOrUpdate = async (req: Request<{}, {}, IEstado>, res: Respons
                 id_usuario: String(usuarioRequisicao.items[0].id),
                 nome_pessoa_usuario: typeof usuarioRequisicao.items[0].id_pessoa === 'object' ? usuarioRequisicao.items[0].id_pessoa.nome : String(usuarioRequisicao.items[0].id_pessoa),
                 nome_usuario: usuarioRequisicao.items[0].login,
-                dthr_acao: new Date().toString()
+                dthr_acao: Formatadores.FormatarDateTimeBanco(),
             },
             transaction);
 
