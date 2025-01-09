@@ -1,4 +1,4 @@
-import { ICidade, IEstado, IPessoa, IUsuario } from "../../../entities";
+import { ICidade, IEstado, IHistoricoAcesso, IPessoa, IUsuario } from "../../../entities";
 
 declare module 'knex/types/tables' {
     interface Tables {
@@ -7,5 +7,6 @@ declare module 'knex/types/tables' {
         usuarios: IUsuario
         pessoas: IPessoa
         auditoria: IAuditoria
+        historico_acessos: IHistoricoAcesso
     }
 }

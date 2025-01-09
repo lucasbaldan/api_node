@@ -20,18 +20,14 @@ export const LoginUsuarioSenha = async (req: Request<{}, {}, IUsuario>, res: Res
     if (usuarioLogado instanceof Error) {
         response.errors = { default: usuarioLogado.message };
     } else {
-        const jwt = JWTService.gerarJWT({ userID: usuarioLogado.id });
-        if(jwt === 'SECRET_NOT_FOUND') {
-            response.errors = { default: "CHAVE DE CRIPTOGRAFIA NÃO ENCONTRADA"};
+        const jwt = await JWTService.gerarJWT({ userID: usuarioLogado.id });
+        if (jwt === 'SECRET_NOT_FOUND' || jwt === 'SERVER_ERROR') {
+            response.errors = { default: jwt === 'SECRET_NOT_FOUND' ? "CHAVE DE CRIPTOGRAFIA NÃO ENCONTRADA" : "ERRO AO GERAR TOKEN DE ACESSO AO SERVIDOR"};
+            res.status(response.statusCode).json(response);
         }
-        response.data = {acessToken: jwt};
         response.status = true;
         response.statusCode = StatusCodes.OK;
+        res.setHeader('acessToken', jwt);
     }
-
-    //NÃO LEVAR O STATUSCODE PARA A RESPOSTA DO SERVIDOR
-    const { statusCode, ...finalResponse } = response;
-    //--------------------------------------------------
-
-    res.status(response.statusCode).json(finalResponse);
+    res.status(response.statusCode).json(response);
 } 

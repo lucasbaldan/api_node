@@ -48,6 +48,15 @@ export async function up(knex: Knex) {
                 table.text('dados_acao').index().notNullable(),
                 table.text('dados_requisicao').nullable()
         })
+        .createTable('historico_acessos', table => {
+            table.bigIncrements('id').index().primary(),
+                table.string('id_usuario', 20).index().notNullable(),
+                table.string('token', 1000).index().notNullable(),
+                table.dateTime('dthr_autenticao').index().notNullable(),
+                table.boolean('revogacao').index().notNullable(),
+                table.dateTime('dthr_revogacao').index().nullable()
+                table.integer('quant_requisicoes').index().nullable()
+        })
         .then(() => console.log('--banco e tabelas criados com sucesso--'));
 }
 
@@ -60,5 +69,6 @@ export async function down(knex: Knex) {
         .dropTable('cidades')
         .dropTable('estados')
         .dropTable('auditoria')
+        .dropTable('historicoAcessos')
         .then(() => console.log('drop com sucesso'));
 }

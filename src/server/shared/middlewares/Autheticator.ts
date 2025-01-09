@@ -3,7 +3,7 @@ import { defaultResponse } from "../../entities";
 import { StatusCodes } from "http-status-codes";
 import { JWTService } from "./JWTService";
 
-export const authenticator: RequestHandler = (req, res, next) => {
+export const authenticator: RequestHandler = async (req, res, next) => {
 
     const { authorization } = req.headers;
     const response: defaultResponse = { data: "", errors: "", status: false, statusCode: StatusCodes.UNAUTHORIZED };
@@ -26,7 +26,7 @@ export const authenticator: RequestHandler = (req, res, next) => {
         return;
     }
 
-    const jwtValidado = JWTService.validarJWT(token);
+    const jwtValidado = await JWTService.validarJWT(token);
     if (jwtValidado === 'SECRET_NOT_FOUND') {
         response.errors = { auth: "Erro ao autenticar. Chave de Criptografia não encontrado no servidor" };
         response.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
@@ -39,7 +39,8 @@ export const authenticator: RequestHandler = (req, res, next) => {
         return;
     }
 
-    req.headers.idUsuario = jwtValidado.userID.toString();
+    req.headers.idUsuario = jwtValidado.jwtDataAtual.userID.toString();
+    res.setHeader('acessToken', jwtValidado.novoJWT);
 
     next();
 
