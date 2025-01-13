@@ -1,0 +1,42 @@
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./app:/var/www/html
+  #   networks:
+  #     - app_network
+  #   depends_on:
+  #     - db
+
+  database_node:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: node
+      MYSQL_USER: node_user
+      MYSQL_PASSWORD: node_password
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - node_volume:/var/lib/mysql
+    networks:
+      - node_rede
+
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: database_node
+    ports:
+      - "3307:80"
+    networks:
+      - node_rede
+
+volumes:
+  node_volume:
+
+networks:
+  node_rede:
