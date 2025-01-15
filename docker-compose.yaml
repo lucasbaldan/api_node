@@ -1,23 +1,27 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:80"
-  #   volumes:
-  #     - ./app:/var/www/html
-  #   networks:
-  #     - app_network
-  #   depends_on:
-  #     - db
+  app:
+    container_name: api_node
+    build:
+      context: . 
+      dockerfile: DockerFile 
+    ports:
+      - "80:80" 
+    depends_on:
+      - database_node 
+    networks:
+      - node_rede 
+    env_file:
+      - .env 
 
   database_node:
+    container_name: database_node
     image: mariadb:latest
+    env_file: 
+      - .env
     environment:
-      MYSQL_DATABASE: node
-      MYSQL_USER: node_user
-      MYSQL_PASSWORD: node_password
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - "3306:3306"
@@ -27,6 +31,7 @@ services:
       - node_rede
 
   phpmyadmin:
+    container_name: pdmin
     image: phpmyadmin
     environment:
       PMA_HOST: database_node
@@ -37,6 +42,8 @@ services:
 
 volumes:
   node_volume:
+    name: node_volume
 
 networks:
   node_rede:
+    name: node_rede

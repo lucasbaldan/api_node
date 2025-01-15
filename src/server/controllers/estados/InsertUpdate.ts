@@ -6,7 +6,7 @@ import { EstadosModels, UsuariosModels } from "../../database/models";
 import { YupMiddleware } from "../../shared/middlewares";
 import { defaultResponse, IEstado } from '../../entities';
 import { AuditoriaModels } from '../../database/models/auditoria';
-import { Formatadores, FormatarDateTimeBanco } from '../../shared/helpers/Formatters';
+import { Formatadores } from '../../shared/helpers/Formatters';
 
 export const insertValidator = YupMiddleware({
     body: yup.object().shape({
@@ -24,7 +24,8 @@ export const insertOrUpdate = async (req: Request<{}, {}, IEstado>, res: Respons
     const usuarioRequisicao = await UsuariosModels.getUsuario(undefined, Number(req.headers.idUsuario));
     if (usuarioRequisicao instanceof Error) {
         response.errors = { default: usuarioRequisicao.message };
-        return res.status(response.statusCode).json(response);
+        res.status(response.statusCode).json(response);
+        return;
     }
 
     const transaction = await Conn.transaction();

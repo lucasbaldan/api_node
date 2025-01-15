@@ -1,3 +1,10 @@
-FROM mariadb:latest
+FROM node:22
 
-WORKDIR /var/lib/mysql
+WORKDIR /usr/src/app
+
+COPY ./build ./build
+COPY .env .env
+
+EXPOSE 80
+
+CMD ["node", "build/index.js"]

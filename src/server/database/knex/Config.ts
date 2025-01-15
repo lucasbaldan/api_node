@@ -10,9 +10,11 @@ export const development: Knex.Config = {
     },
     migrations: {
         directory: path.resolve(__dirname, '..', 'migrations'),
+        extension: 'ts',
     },
     seeds: {
         directory: path.resolve(__dirname, '..', 'seeds'),
+        extension: 'ts',
     },
     pool: {
         afterCreate: (connection: any, done: Function) => {
@@ -33,9 +35,11 @@ export const production: Knex.Config = {
         tableName: 'sistema_migrations',
         directory: path.resolve(__dirname, '..', 'migrations'),
         disableTransactions: false,
+        extension: 'js',
     },
     seeds: {
         directory: path.resolve(__dirname, '..', 'seeds'),
+        extension: 'js',
     },
     connection: {
         host: process.env.DB_HOST,

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "test": "jest",
+    "build": "npx tsc",
     "db:migrate": "npx knex --knexfile ./src/server/database/knex/Config.ts migrate:latest",
     "db:rollback": "npx knex --knexfile ./src/server/database/knex/Config.ts migrate:rollback",
     "db:drop": "npx knex --knexfile ./src/server/database/knex/Config.ts migrate:rollback --all",
@@ -14,8 +15,6 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/mysql": "^2.15.26",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
@@ -27,6 +26,8 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/mysql": "^2.15.26",
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
